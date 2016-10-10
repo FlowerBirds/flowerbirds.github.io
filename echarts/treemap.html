@@ -1,1 +1,50 @@
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js?_v_=1471406922963"></script>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="tree" style="width: 600px;height:400px;"></div>
+	<input type='button' value='设置' onclick='changeOption()' />
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        // 指定图表的配置项和数据
+        // 使用刚指定的配置项和数据显示图表。
+
+		var myTree = echarts.init(document.getElementById('tree'));
+		var option = {
+	title: {
+		text: 'ECharts Treemap'
+	},
+	tooltip: {},
+	series: [{
+		name: '销量',
+		type: 'treemap',
+		leafDepth: 1,
+		data: [{name: '分类a', value: 10}, 
+			{name: '分类b', value: 18, children: [
+				{name: '层次a', value: 10},
+				{name: '层次b', value: 8},
+			]},
+			{name: '分类c', value: 20},
+			{name: '分类d', value: 11},]
+	}]
+        };
+		//当series的data中‘分类c’的value设置为30,60,70,80,90,100时，初始化后导航条显示有误(40,50正常)
+		myTree.setOption(option);
+		
+		function changeOption(){
+			myTree.setOption({
+				title: {
+					text: 'Title' + Math.random()
+				}
+			});
+		}
+    </script>
+</body>
+</html>
