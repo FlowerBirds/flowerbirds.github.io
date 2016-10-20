@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.js"></script>
+	<style>
+		*{font-family: Monaco, Consolas, 'Courier New';}
+		div.info{
+			margin: 0 -15px;
+			background-color: #f5f5f5;
+			border: none;
+			padding: 15px;
+			-webkit-border-radius: 0;
+			border-radius: 0;
+		}
+		.notice{
+			margin: 0 -15px;
+			background-color: #f5f5f5;
+			border: none;
+			padding: 15px;
+			-webkit-border-radius: 0;
+			border-radius: 0;
+			border: 2px solid blue;
+			color: red;
+		}
+		strong{color: #B03A5B;}
+	</style>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="tree" style="width: 600px;height:400px;"></div>
+	<input type='button' value='Merge options' onclick='changeOption(false)' />
+	<input type='button' value='Not merge options' onclick='changeOption(true)' />
+	<p/>
+	<div class='notice'>当图形已初始化数据后，再次通过<strong>setOption</strong>更改图形数据时（<strong>series-data</strong>属性）时，设置notMerge为true时，则从子节点返回顶层时，点击导航条无法返回</div>
+	<div style='font-size: 18px; color: #B03A5B; margin: 10px;'>echartsInstance.<strong>setOption</strong> Function</div>
+	<div class='info	'>
+	(option: Object, notMerge: boolean, lazyUpdate: boolean)
+	</div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        // 指定图表的配置项和数据
+        // 使用刚指定的配置项和数据显示图表。
+
+		var myTree = echarts.init(document.getElementById('tree'));
+		var option = {
+			title: {
+				text: 'ECharts Treemap'
+			},
+			tooltip: {},
+			series: [{
+				name: '销量',
+				type: 'treemap',
+				leafDepth: 1,
+				data: [{name: '分类a', value: 10}, 
+					{name: '分类b', value: 18, children: [
+						{name: '层次a', value: 10},
+						{name: '层次b', value: 8},
+					]},
+					{name: '分类c', value: 20},
+					{name: '分类d', value: 11},]
+			}]
+        };
+		
+		myTree.setOption(option);
+		
+		var newData = [{name: 'a', value: 10}, 
+			{name: 'b', value: 18, children: [
+				{name: '层a', value: 10},
+				{name: '层b', value: 8},
+			]},
+			{name: 'c', value: 20},
+			{name: 'd', value: 11},];
+
+		function changeOption(notMerge){
+			myTree.setOption({
+				title: {
+					text: 'Title' + Math.random()
+				},
+				series: [{
+					name: '销量',
+					type: 'treemap',
+					leafDepth: 1,
+					data: newData
+				}]
+			}, notMerge);
+		}
+    </script>
+</body>
+</html>
+
+
